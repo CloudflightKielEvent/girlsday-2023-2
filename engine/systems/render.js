@@ -1,6 +1,7 @@
 import {AnimatedSpriteComponent, Collision2DComponent, Graphics2DComponent} from '../components/index.js';
 import {EntityList} from '../entities/index.js';
-import {GlobalConstants, GlobalDrawContext, GlobalGameState} from '../globals.js';
+import {GlobalDrawContext, GlobalGameState} from '../../globals.js';
+import {GlobalConfig} from '../../config.js';
 import {CircleCollider, RectCollider} from '../geometry/index.js';
 import {SceneManager} from "../resourcemanagers/index.js";
 
@@ -76,13 +77,13 @@ export class RenderSystem {
      * Process a single game tick.
      */
     static tick() {
-        GlobalDrawContext.clearRect(0, 0, GlobalConstants.GAME_WINDOW_WIDTH, GlobalConstants.GAME_WINDOW_HEIGHT);
+        GlobalDrawContext.clearRect(0, 0, GlobalConfig.GAME_WINDOW_WIDTH, GlobalConfig.GAME_WINDOW_HEIGHT);
         GlobalDrawContext.drawImage(
             SceneManager.currentScene.imageManager.images.get('background'),
             0,
             0,
-            GlobalConstants.GAME_WINDOW_WIDTH,
-            GlobalConstants.GAME_WINDOW_HEIGHT
+            GlobalConfig.GAME_WINDOW_WIDTH,
+            GlobalConfig.GAME_WINDOW_HEIGHT
         );
 
         // TODO would be nice to refactor these text blocks into a new kind of entity of type Text with a new TextComponent and a Graphics2DComponent :)
@@ -108,7 +109,7 @@ export class RenderSystem {
             }
         }
 
-        if (GlobalConstants.DEBUG_MODE) {
+        if (GlobalConfig.DEBUG_MODE) {
             for (const iEntity of RenderSystem.getCollidingEntities()) {
                 RenderSystem.drawCollider(iEntity[Collision2DComponent.identifier]);
             }

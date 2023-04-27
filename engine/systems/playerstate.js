@@ -1,13 +1,15 @@
-import {EntityTypes, Player, PlayerAnimationStates} from "../entities/index.js";
+import {EntityTypes} from '../entities/index.js';
+import {Player, PlayerAnimationStates} from '../../entities/playerEntity.js';
 import {
     AnimatedSpriteComponent,
-    Collision2DComponent, Graphics2DComponent,
+    Collision2DComponent,
+    Graphics2DComponent,
     Gravity2DComponent,
     Movement2DComponent,
     PlayerControlledComponent
 } from "../components/index.js";
 import {Vector2} from '../geometry/index.js';
-import {GlobalConstants} from '../globals.js';
+import {GlobalConfig} from '../../config.js';
 import {Debug} from '../debug.js';
 
 let currentWalkingAnimationIndex = 0;
@@ -85,7 +87,7 @@ export class PlayerStateSystem {
         const playerGraphics = player[Graphics2DComponent.identifier];
         const playerCollision = player[Collision2DComponent.identifier];
         const isOnTile = playerCollision.collidingEntities.some((iEntity) => iEntity.type === EntityTypes.TILE);
-        const isBelowFloor = playerGraphics.position.y > GlobalConstants.WALKABLE_GROUND_LEVEL;
+        const isBelowFloor = playerGraphics.position.y > GlobalConfig.WALKABLE_GROUND_LEVEL;
 
         Debug.log(`[PlayerState] Player is${isOnTile ? '' : 'n\'t'} on tile, is${isBelowFloor ? '' : 'n\'t'} below the floor and is${playerControl.isJumping ? '' : 'n\'t'} jumping.`);
 

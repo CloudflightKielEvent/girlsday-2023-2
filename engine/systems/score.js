@@ -1,7 +1,8 @@
 import {Collision2DComponent, ConsumableComponent} from '../components/index.js';
-import {EntityList, Player} from '../entities/index.js';
+import {EntityList} from '../entities/index.js';
+import {Player} from '../../entities/playerEntity.js';
 import {SceneManager} from "../resourcemanagers/index.js";
-import {GlobalGameState} from "../globals.js";
+import {GlobalGameState} from "../../globals.js";
 
 /**
  * System for handling food-player-collisions and consuming.

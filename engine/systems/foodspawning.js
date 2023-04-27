@@ -1,5 +1,6 @@
-import {FoodFactory} from '../entities/index.js';
-import {GlobalConstants, GlobalGameState, Time} from '../globals.js';
+import {FoodFactory} from '../../entities/foodEntity.js';
+import {GlobalGameState, Time} from '../../globals.js';
+import {GlobalConfig} from '../../config.js';
 import {Vector2} from '../geometry/index.js';
 
 let lastFoodSpawn = 0;
@@ -16,7 +17,7 @@ export class FoodSpawnSystem {
         if (Time.deltaTime > lastFoodSpawn + GlobalGameState.current.foodSpawnIntervalMs) {
             lastFoodSpawn = Time.deltaTime;
 
-            const spawnX = GlobalConstants.FOOD_SPAWN_POSITIONS[Math.floor(Math.random() * GlobalConstants.FOOD_SPAWN_POSITIONS.length)];
+            const spawnX = GlobalConfig.FOOD_SPAWN_POSITIONS[Math.floor(Math.random() * GlobalConfig.FOOD_SPAWN_POSITIONS.length)];
 
             FoodFactory.createFood(new Vector2(spawnX, 20));
         }

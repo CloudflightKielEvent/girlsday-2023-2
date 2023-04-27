@@ -1,5 +1,6 @@
-import {GlobalConstants, GlobalDrawContext, GlobalGameState, Time} from './globals.js';
-import {Scene, SceneManager} from './resourcemanagers/index.js';
+import {GlobalDrawContext, GlobalGameState, Time} from './globals.js';
+import {GlobalConfig} from './config.js';
+import {Scene, SceneManager} from './engine/resourcemanagers/index.js';
 import {
     FoodSpawnSystem,
     GarbageCollectorSystem,
@@ -10,16 +11,18 @@ import {
     RenderSystem,
     ScoreSystem,
     TileBreakingSystem
-} from './systems/index.js';
+} from './engine/systems/index.js';
 import {Player, TileFactory, TileType} from './entities/index.js';
-import {Vector2} from './geometry/index.js';
-import {Debug} from './debug.js';
+import {Vector2} from './engine/geometry/index.js';
+import {Debug} from './engine/debug.js';
 
-/**
- * Sets up the game scenes. Extend this function to add new scenes with their assets and entities.
- */
-function setupScenes() {
-    const cupcakeWorld = new Scene(GlobalConstants.INITIAL_SCENE_NAME, true);
+const defineCupcakeWorld = () => {
+    const cupcakeWorld = new Scene(GlobalConfig.INITIAL_SCENE_NAME, true);
+    /*
+     * TODO TASK
+     *  For each level, we need to define the assets (images and sounds) available in the scene.
+     *  You can try switching assets by changing the urls, but make sure to not change the ids! :)
+     */
     cupcakeWorld.imageManager.addBackground('images/bg_cupcakeworld.png');
     cupcakeWorld.imageManager.addImage('tile_left', 'images/tile_cake_left.png');
     cupcakeWorld.imageManager.addImage('tile_mid', 'images/tile_cake_mid.png');
@@ -39,11 +42,13 @@ function setupScenes() {
                 i === 9 ? TileType.RIGHT :
                     TileType.MID;
 
-            TileFactory.createTile(new Vector2(i * 50, GlobalConstants.GROUND_LEVEL), tileType);
+            TileFactory.createTile(new Vector2(i * 50, GlobalConfig.GROUND_LEVEL), tileType);
         }
     };
+}
 
-    const spaceWorld = new Scene(GlobalConstants.SECOND_SCENE_NAME, false);
+const defineSpaceWorld = () => {
+    const spaceWorld = new Scene(GlobalConfig.SECOND_SCENE_NAME, false);
     spaceWorld.imageManager.addBackground('images/background_purple.jpg');
     spaceWorld.setLightFont();
     spaceWorld.imageManager.addImage('tile_left', 'images/tile_moon_left.png');
@@ -65,11 +70,25 @@ function setupScenes() {
                 i === 9 ? TileType.RIGHT :
                     TileType.MID;
 
-            TileFactory.createTile(new Vector2(i * 50, GlobalConstants.GROUND_LEVEL), tileType);
+            TileFactory.createTile(new Vector2(i * 50, GlobalConfig.GROUND_LEVEL), tileType);
         }
     };
+}
 
-    ///TODO: Add a third scene here. Decide on a name for the level and choose the sounds, images and background.
+const defineThirdWorld = () => {
+    /*
+     * TODO TASK
+     *  Define a third world with another scene. Use the above scenes for inspiration. Try experimenting with different assets and settings.
+     */
+}
+
+/**
+ * Sets up the game scenes. Extend this function to add new scenes with their assets and entities.
+ */
+function setupScenes() {
+    defineCupcakeWorld();
+    defineSpaceWorld();
+    defineThirdWorld();
 }
 
 /**
@@ -78,8 +97,10 @@ function setupScenes() {
 function drawStartMessage() {
     GlobalDrawContext.strokeStyle = "white";
     GlobalDrawContext.font = "30px Calibri";
-    GlobalDrawContext.strokeText("Press any key to start", GlobalConstants.GAME_WINDOW_WIDTH / 4, GlobalConstants.GAME_WINDOW_HEIGHT / 2);
+    GlobalDrawContext.strokeText("Press any key to start", GlobalConfig.GAME_WINDOW_WIDTH / 4, GlobalConfig.GAME_WINDOW_HEIGHT / 2);
 }
+
+
 
 // use this to clear the game loop interval
 let gameIntervalReference;
@@ -99,13 +120,13 @@ class Game {
         Player.getEntity(); // ensure the player entity is created
 
         // load the current scene and render the start screen
-        await SceneManager.loadScene(GlobalConstants.INITIAL_SCENE_NAME);
+        await SceneManager.loadScene(GlobalConfig.INITIAL_SCENE_NAME);
         GlobalDrawContext.drawImage(
             SceneManager.currentScene.imageManager.images.get('background'),
             0,
             0,
-            GlobalConstants.GAME_WINDOW_WIDTH,
-            GlobalConstants.GAME_WINDOW_HEIGHT
+            GlobalConfig.GAME_WINDOW_WIDTH,
+            GlobalConfig.GAME_WINDOW_HEIGHT
         );
         drawStartMessage();
 
@@ -116,7 +137,6 @@ class Game {
         console.info('[Game] Setting up game state...');
         GlobalGameState.reset();
         Time.init();
-        Time.suspendTime();
 
         console.info('[Game] Game ready.');
     }
@@ -148,12 +168,12 @@ class Game {
                 RenderSystem.tick();
                 GarbageCollectorSystem.tick();
 
-                LevelSystem.checkProgressCondition();
+                LevelSystem.completeLoopRun();
             }
 
             // update debug info
             Debug.printDebugInfo();
-        }, GlobalConstants.SLOW_MODE ? 1000 : GlobalConstants.IDEAL_TICK_TIME);
+        }, GlobalConfig.SLOW_MODE ? 1000 : GlobalConfig.IDEAL_TICK_TIME);
     }
 }
 

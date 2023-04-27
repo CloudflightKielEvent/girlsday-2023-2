@@ -1,6 +1,5 @@
 import {Collision2DComponent} from '../components/index.js';
 import {EntityList, EntityTypes} from '../entities/index.js';
-import {GlobalGameState} from '../globals.js';
 
 /**
  * System for handling food-tile-collisions and breaking.
@@ -29,15 +28,9 @@ export class TileBreakingSystem {
             const collidingFood = entityCollision.collidingEntities.find((iColliding) => iColliding.type === EntityTypes.FOOD);
 
             if (collidingFood !== undefined) {
+                // TODO TASK: You can try removing the food when it collides with a block to make the game a bit harder
                 // EntityList.remove(collidingFood.id);
                 EntityList.remove(iEntity.id);
-                if (GlobalGameState.current.lives > 1) {
-                    GlobalGameState.current.lives -= 1;
-                }
-                else {
-                    GlobalGameState.current.lives -= 1;
-                    GlobalGameState.current.gameOver = true;
-                }
             }
         }
     }

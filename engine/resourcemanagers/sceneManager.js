@@ -1,5 +1,5 @@
 import {EntityList} from '../entities/index.js';
-import {GlobalConstants} from '../globals.js';
+import {GlobalConfig} from '../../config.js';
 import {ImageManager} from './imageManager.js';
 import {SoundManager} from './soundManager.js';
 
@@ -9,6 +9,9 @@ import {SoundManager} from './soundManager.js';
  */
 const SceneRegistry = new Map();
 
+/**
+ * Enumeration of scene font colors.
+ */
 export const SceneFontColor = Object.freeze({
     LIGHT: 'rgb(255, 255, 255)',
     DARK: 'rgb(0,0,0)'
@@ -83,7 +86,7 @@ export class Scene {
     }
 }
 
-let _currentScene = GlobalConstants.INITIAL_SCENE_NAME;
+let _currentScene = GlobalConfig.INITIAL_SCENE_NAME;
 
 /**
  * Resource manager to handle switching between different scenes (levels).
@@ -92,15 +95,16 @@ export class SceneManager {
     /**
      * Load the scene with the given name.
      * @param {string} name The scene name.
+     * @param {boolean} resetPlayer Whether to reset the player entity, too.
      */
-    static async loadScene(name) {
+    static async loadScene(name, resetPlayer = false) {
         console.info('[SceneManager] Switching to new scene.')
 
         if (SceneRegistry.has(name)) {
             const newScene = SceneRegistry.get(name);
             const currentScene = SceneRegistry.get(_currentScene);
 
-            if (currentScene.isLevel && newScene.isLevel) {
+            if (currentScene.isLevel && newScene.isLevel && !resetPlayer) {
                 const player = EntityList.entities.find((iEntity) => iEntity.type === 'Player');
 
                 EntityList.removeAllBut(player.id);

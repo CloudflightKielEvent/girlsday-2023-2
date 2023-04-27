@@ -5,12 +5,15 @@ import {
     Gravity2DComponent,
     Movement2DComponent,
     PlayerControlledComponent
-} from '../components/index.js';
-import {GlobalConstants, LayerIndexes} from '../globals.js';
-import {RectCollider, Vector2} from '../geometry/index.js';
-import {Entity} from './entity.js';
-import {EntityTypes} from './utils.js';
+} from '../engine/components/index.js';
+import {LayerIndexes} from '../globals.js';
+import {GlobalConfig} from '../config.js';
+import {RectCollider, Vector2} from '../engine/geometry/index.js';
+import {Entity, EntityTypes} from '../engine/entities/index.js';
 
+/**
+ * Enumeration of player animation states.
+ */
 export const PlayerAnimationStates = Object.freeze({
     DEFAULT: 'default',
     HURT: 'hurt',
@@ -32,9 +35,9 @@ export class Player {
         if (Player._instance === undefined) {
             console.log("here");
             Player._instance = new Entity(EntityTypes.PLAYER)
-                .addComponent(new Graphics2DComponent(GlobalConstants.INITIAL_PLAYER_POSITION, 50, 50, 'player'))
+                .addComponent(new Graphics2DComponent(GlobalConfig.INITIAL_PLAYER_POSITION, 50, 50, 'player'))
                 .addComponent(new Movement2DComponent(new Vector2(0, 0)))
-                .addComponent(new Collision2DComponent(new RectCollider(GlobalConstants.INITIAL_PLAYER_POSITION, 50, 50, LayerIndexes.Main)))
+                .addComponent(new Collision2DComponent(new RectCollider(GlobalConfig.INITIAL_PLAYER_POSITION, 50, 50, LayerIndexes.Main)))
                 .addComponent(new Gravity2DComponent(5))
                 .addComponent(new PlayerControlledComponent(3))
                 .addComponent(new AnimatedSpriteComponent(

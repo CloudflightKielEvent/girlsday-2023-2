@@ -12,6 +12,11 @@ export class Collision2DComponent extends Component {
         return 'collision';
     }
 
+    /**
+     * Creates a new 2d collision component.
+     * @param {Collider} collider The collider shape.
+     * @param {number} layer The layer to use for collisions (@todo currently unused).
+     */
     constructor(collider, layer) {
         super();
 
@@ -60,14 +65,24 @@ export class Collision2DComponent extends Component {
         this._collidingEntities.push(entity);
     }
 
+    /**
+     * Disable collision detection completely for this collision component.
+     */
     disableCollisions() {
         this._ignoreCollisions = true;
     }
 
+    /**
+     * Re-enable collision detection for this collision component.
+     */
     enableCollisions() {
         this._ignoreCollisions = false;
     }
 
+    /**
+     * Get whether this component currently has its collision detection disabled.
+     * @return {boolean} Whether collisions are ignored.
+     */
     get ignoreCollisions() {
         return this._ignoreCollisions;
     }

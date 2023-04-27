@@ -3,11 +3,10 @@ import {
     ConsumableComponent,
     Graphics2DComponent,
     Gravity2DComponent
-} from '../components/index.js';
+} from '../engine/components/index.js';
 import {LayerIndexes} from '../globals.js';
-import {CircleCollider} from '../geometry/index.js';
-import {Entity} from './entity.js';
-import {EntityTypes} from './utils.js';
+import {CircleCollider} from '../engine/geometry/index.js';
+import {Entity, EntityTypes} from '../engine/entities/index.js';
 
 /**
  * Various available food types.
@@ -16,7 +15,7 @@ const FoodTypes = Object.freeze({
     CUPCAKE: {
         name: 'cupcake',
         value: 1,
-        weight: 3
+        weight: 3 // TODO TASK - try changing the weight of a cupcake to see how it affects the game
     },
     FRUIT: {
         name: 'fruit',
@@ -52,6 +51,6 @@ export class FoodFactory {
             .addComponent(new ConsumableComponent(foodType.value))
             .addComponent(new Graphics2DComponent(position, 44, 44, foodType.name))
             .addComponent(new Collision2DComponent(CircleCollider.fromDimensions(position, 44, 44), LayerIndexes.FOOD))
-            .addComponent(new Gravity2DComponent(foodType.weight));
+            .addComponent(new Gravity2DComponent(foodType.weight)); // TODO TASK - If you add a difficulty level via a global config, you could e.g. multiply it with the weight to make things fall faster
     }
 }

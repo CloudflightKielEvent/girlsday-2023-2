@@ -1,9 +1,11 @@
-import {Collision2DComponent, Graphics2DComponent} from '../components/index.js';
+import {Collision2DComponent, Graphics2DComponent} from '../engine/components/index.js';
 import {LayerIndexes} from '../globals.js';
-import {Entity} from './entity.js';
-import {EntityTypes} from './utils.js';
-import {RectCollider} from '../geometry/index.js';
+import {Entity, EntityTypes} from '../engine/entities/index.js';
+import {RectCollider} from '../engine/geometry/index.js';
 
+/**
+ * Enumeration of available tile types.
+ */
 export const TileType = Object.freeze({
    LEFT: 'left',
    MID: 'mid',

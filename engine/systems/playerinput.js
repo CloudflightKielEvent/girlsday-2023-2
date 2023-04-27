@@ -1,6 +1,8 @@
 import {Collision2DComponent, Movement2DComponent, PlayerControlledComponent} from '../components/index.js';
-import {EntityTypes, Player} from '../entities/index.js';
-import {GlobalConstants, GlobalGameState, KeyBinds, Time} from '../globals.js';
+import {EntityTypes} from '../entities/index.js';
+import {Player} from '../../entities/playerEntity.js';
+import {GlobalGameState, Time} from '../../globals.js';
+import {GlobalConfig, KeyBinds} from '../../config.js';
 import {Vector2} from '../geometry/index.js';
 import {Debug} from '../debug.js';
 
@@ -18,7 +20,9 @@ export class PlayerInputSystem {
     static registerInputListeners() {
         window.addEventListener('keydown', (event) => {
             Debug.log(`%cKEYDOWN ${event.key}`, 'color:yellow');
+
             if (Time.deltaTime === 0) {
+                Debug.log("[Time] Fresh game run.");
                 GlobalGameState.current.paused = false;
                 Time.resumeTime();
             }
@@ -30,17 +34,24 @@ export class PlayerInputSystem {
 
             switch (true) {
                 case KeyBinds.ACTION_MOVE_LEFT.includes(event.key): {
-                    playerMovement.setVelocity(new Vector2(-GlobalConstants.PLAYER_MOVEMENT_SPEED, playerMovement.velocity.y));
+                    playerMovement.setVelocity(new Vector2(-GlobalConfig.PLAYER_MOVEMENT_SPEED, playerMovement.velocity.y));
                     lastMovementKeyPressed = event.key;
 
                     break;
                 }
                 case KeyBinds.ACTION_MOVE_RIGHT.includes(event.key): {
-                    playerMovement.setVelocity(new Vector2(GlobalConstants.PLAYER_MOVEMENT_SPEED, playerMovement.velocity.y));
+                    playerMovement.setVelocity(new Vector2(GlobalConfig.PLAYER_MOVEMENT_SPEED, playerMovement.velocity.y));
                     lastMovementKeyPressed = event.key;
 
                     break;
                 }
+
+                /*
+                 * TODO TASK
+                 *  Try adding keybindings for a super move via a global config and handle them here.
+                 *  You can copy the case handlers for the normal move actions and adjust them, e.g. by multiplying the applied velocity.
+                 */
+
                 case KeyBinds.ACTION_JUMP.includes(event.key): {
                     if (playerControl.isGrounded) {
                         playerMovement.setVelocity(new Vector2(playerMovement.velocity.x, playerControl.jumpHeight));
@@ -70,6 +81,18 @@ export class PlayerInputSystem {
 
                     break;
                 }
+
+                case KeyBinds.GAME_RESTART.includes(event.key): {
+                    GlobalGameState.current.restart = true;
+
+                    break;
+                }
+
+                /*
+                 * TODO TASK
+                 *  Try to make a sound effect play on some other key, just for fun.
+                 */
+
                 default: break;
             }
         });

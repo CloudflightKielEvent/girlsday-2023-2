@@ -1,5 +1,7 @@
-import {EntityList, Player} from './entities/index.js';
-import {GlobalConstants, GlobalGameState, Time} from './globals.js';
+import {EntityList} from './entities/index.js';
+import {Player} from '../entities/playerEntity.js';
+import {GlobalGameState, Time} from '../globals.js';
+import {GlobalConfig} from '../config.js';
 
 /*
  * This is just a div below the canvas to print some debug info on screen.
@@ -23,7 +25,7 @@ export class Debug {
             <p>Paused: ${currentGameState.paused}</p>
             <p>Food spawn interval: ${currentGameState.foodSpawnIntervalMs}</p>
             <p>Game run time: ${Math.floor(Time.deltaTime / 1000)} seconds</p>
-            ${GlobalConstants.DEBUG_MODE ? Player.getDebugInfo() : ''}
+            ${GlobalConfig.DEBUG_MODE ? Player.getDebugInfo() : ''}
         `;
     }
 
@@ -32,7 +34,7 @@ export class Debug {
      * @param {*} args The args to pass to console.debug.
      */
     static log(...args) {
-        if (GlobalConstants.DEBUG_MODE) {
+        if (GlobalConfig.DEBUG_MODE) {
             console.debug(...args);
         }
     }

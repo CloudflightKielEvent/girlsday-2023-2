@@ -1,5 +1,8 @@
 import {Vector2} from './vector2.js';
 
+/**
+ * Enumeration of directions for collision checking.
+ */
 export const CollisionCheckDirection = Object.freeze({
     VERTICAL: 'vertical',
     HORIZONTAL: 'horizontal',
