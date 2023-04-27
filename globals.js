@@ -16,7 +16,7 @@ export const GlobalDrawContext = canvas.getContext('2d');
 export class GlobalGameState {
     constructor() {
         this.score = 0;
-        this.lives = 3;
+        this.lives = 7;
         this.gameOver = false;
         this.restart = false;
         this.paused = true;

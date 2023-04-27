@@ -145,21 +145,32 @@ export class MovementSystem {
         const playerMovement = playerEntity[Movement2DComponent.identifier];
         const playerGravity = playerEntity[Gravity2DComponent.identifier];
 
+        let nextPosition;
+
         if (playerControl.isJumping) {
             Debug.log(`[PlayerMovement] Player is jumping at jump height ${playerControl.jumpHeight}.`);
 
-            return new Vector2(playerGraphics.position.x + playerMovement.velocity.x, playerGraphics.position.y - playerControl.jumpHeight);
+            nextPosition = new Vector2(playerGraphics.position.x + playerMovement.velocity.x, playerGraphics.position.y - playerControl.jumpHeight);
         }
         else if (playerControl.isFalling) {
             Debug.log(`[PlayerMovement] Player is falling at speed ${playerGravity.isEnabled ? playerGravity.weight : 0}.`);
 
-            return new Vector2(playerGraphics.position.x + playerMovement.velocity.x, playerGraphics.position.y + (playerGravity.isEnabled ? playerGravity.weight : 0));
+            nextPosition = new Vector2(playerGraphics.position.x + playerMovement.velocity.x, playerGraphics.position.y + (playerGravity.isEnabled ? playerGravity.weight : 0));
         }
         else if (playerControl.isGrounded) {
             Debug.log(`[PlayerMovement] Player is grounded and moving at speed ${playerMovement.velocity.x}.`);
 
-            return new Vector2(playerGraphics.position.x + playerMovement.velocity.x, playerGraphics.position.y);
+            nextPosition = new Vector2(playerGraphics.position.x + playerMovement.velocity.x, playerGraphics.position.y);
         }
+
+        if (nextPosition.x > 475) {
+            nextPosition.x = 0;
+        }
+        else if (nextPosition.x < 0) {
+            nextPosition.x = 475;
+        }
+        
+        return nextPosition;
     }
 
     /**

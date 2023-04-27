@@ -93,7 +93,7 @@ export class RenderSystem {
         GlobalDrawContext.fillText("Lives: " + GlobalGameState.current.lives, 350, 27);
         GlobalDrawContext.fillText("World: " + SceneManager.currentScene.name, 30, 27);
         GlobalDrawContext.drawImage(
-            SceneManager.currentScene.imageManager.images.get('cupcake'),
+            SceneManager.currentScene.imageManager.images.get('seashell'),
             440,
             10,
             20,

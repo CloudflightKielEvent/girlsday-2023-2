@@ -5,6 +5,7 @@ import {GlobalGameState, Time} from '../../globals.js';
 import {GlobalConfig, KeyBinds} from '../../config.js';
 import {Vector2} from '../geometry/index.js';
 import {Debug} from '../debug.js';
+import { SceneManager } from '../resourcemanagers/sceneManager.js';
 
 const JUMP_TIMEOUT_MS = 500;
 
@@ -25,6 +26,10 @@ export class PlayerInputSystem {
                 Debug.log("[Time] Fresh game run.");
                 GlobalGameState.current.paused = false;
                 Time.resumeTime();
+                SceneManager.currentScene.soundManager.sfx.get('music').play();
+                setInterval(() => {
+                    SceneManager.currentScene.soundManager.sfx.get('music').play();
+                }, 106_000);
             }
 
             const player = Player.getEntity();

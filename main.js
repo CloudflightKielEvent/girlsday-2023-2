@@ -28,14 +28,17 @@ const defineCupcakeWorld = () => {
     cupcakeWorld.imageManager.addImage('tile_mid', 'images/tile_cake_mid.png');
     cupcakeWorld.imageManager.addImage('tile_right', 'images/tile_cake_right.png');
     cupcakeWorld.imageManager.addImage('cupcake', 'images/cupcake.png');
-    cupcakeWorld.imageManager.addImage('player_default', 'images/player_default.png');
-    cupcakeWorld.imageManager.addImage('player_hurt', 'images/player_hurt.png');
-    cupcakeWorld.imageManager.addImage('player_jump', 'images/player_jump.png');
-    cupcakeWorld.imageManager.addImage('player_walk_1', 'images/player_walk_1.png');
-    cupcakeWorld.imageManager.addImage('player_walk_2', 'images/player_walk_2.png');
-    cupcakeWorld.imageManager.addImage('player_walk_3', 'images/player_walk_3.png');
+    cupcakeWorld.imageManager.addImage('seashell', 'images/seashell.png');
+    cupcakeWorld.imageManager.addImage('player_default', 'images/player2_walk_1.png');
+    cupcakeWorld.imageManager.addImage('player_hurt', 'images/player2_hurt.png');
+    cupcakeWorld.imageManager.addImage('player_jump', 'images/player2_jump.png');
+    cupcakeWorld.imageManager.addImage('player_walk_1', 'images/player2_walk_1.png');
+    cupcakeWorld.imageManager.addImage('player_walk_2', 'images/player2_walk_2.png');
+    cupcakeWorld.imageManager.addImage('player_walk_3', 'images/player2_walk_3.png');
     cupcakeWorld.soundManager.addSfx('drop', 'sound/drop.mp3');
     cupcakeWorld.soundManager.addSfx('eat', 'sound/eat.ogg');
+    cupcakeWorld.soundManager.addSfx('music', 'sound/music.ogg');
+
     cupcakeWorld.createEntities = () => {
         for (let i = 0; i <= 9; i++) {
             const tileType = i === 0 ? TileType.LEFT :
@@ -51,10 +54,11 @@ const defineSpaceWorld = () => {
     const spaceWorld = new Scene(GlobalConfig.SECOND_SCENE_NAME, false);
     spaceWorld.imageManager.addBackground('images/background_purple.jpg');
     spaceWorld.setLightFont();
-    spaceWorld.imageManager.addImage('tile_left', 'images/tile_moon_left.png');
-    spaceWorld.imageManager.addImage('tile_mid', 'images/tile_moon_mid.png');
-    spaceWorld.imageManager.addImage('tile_right', 'images/tile_moon_right.png');
+    spaceWorld.imageManager.addImage('tile_left', 'images/tile_tundra_left.png');
+    spaceWorld.imageManager.addImage('tile_mid', 'images/tile_tundra_mid.png');
+    spaceWorld.imageManager.addImage('tile_right', 'images/tile_tundra_right.png');
     spaceWorld.imageManager.addImage('cupcake', 'images/cupcake.png');
+    spaceWorld.imageManager.addImage('seashell', 'images/seashell.png');
     spaceWorld.imageManager.addImage('star', 'images/star.png');
     spaceWorld.imageManager.addImage('player_default', 'images/player_default.png');
     spaceWorld.imageManager.addImage('player_hurt', 'images/player_hurt.png');
@@ -64,6 +68,7 @@ const defineSpaceWorld = () => {
     spaceWorld.imageManager.addImage('player_walk_3', 'images/player_walk_3.png');
     spaceWorld.soundManager.addSfx('drop', 'sound/drop.mp3');
     spaceWorld.soundManager.addSfx('eat', 'sound/eat.ogg');
+    spaceWorld.soundManager.addSfx('music', 'sound/music_space_world.ogg');
     spaceWorld.createEntities = () => {
         for (let i = 0; i <= 9; i++) {
             const tileType = i === 0 ? TileType.LEFT :
@@ -76,7 +81,32 @@ const defineSpaceWorld = () => {
 }
 
 const defineThirdWorld = () => {
-    /*
+    const beachWorld = new Scene(GlobalConfig.THIRD_SCENE_NAME, false);
+    beachWorld.imageManager.addBackground('images/background_beach.png');
+    beachWorld.setLightFont();
+    beachWorld.imageManager.addImage('tile_left', 'images/tile_choco_left.png');
+    beachWorld.imageManager.addImage('tile_mid', 'images/tile_choco_mid.png');
+    beachWorld.imageManager.addImage('tile_right', 'images/tile_choco_right.png');
+    beachWorld.imageManager.addImage('seashell', 'images/seashell.png');
+    beachWorld.imageManager.addImage('star', 'images/star.png');
+    beachWorld.imageManager.addImage('player_default', 'images/seal_walk_1.png');
+    beachWorld.imageManager.addImage('player_hurt', 'images/seal_fall.png');
+    beachWorld.imageManager.addImage('player_jump', 'images/seal_jump.png');
+    beachWorld.imageManager.addImage('player_walk_1', 'images/seal_walk_1.png');
+    beachWorld.imageManager.addImage('player_walk_2', 'images/seal_walk_2.png');
+    beachWorld.imageManager.addImage('player_walk_3', 'images/seal_walk_3.png');
+    beachWorld.soundManager.addSfx('drop', 'sound/drop.mp3');
+    beachWorld.soundManager.addSfx('eat', 'sound/eat.ogg');
+    beachWorld.soundManager.addSfx('music', 'sound/music.ogg');
+    beachWorld.createEntities = () => {
+        for (let i = 0; i <= 9; i++) {
+            const tileType = i === 0 ? TileType.LEFT :
+                i === 9 ? TileType.RIGHT :
+                    TileType.MID;
+
+            TileFactory.createTile(new Vector2(i * 50, GlobalConfig.GROUND_LEVEL), tileType);
+        }
+    }; /*
      * TODO TASK
      *  Define a third world with another scene. Use the above scenes for inspiration. Try experimenting with different assets and settings.
      */
@@ -97,7 +127,7 @@ function setupScenes() {
 function drawStartMessage() {
     GlobalDrawContext.strokeStyle = "white";
     GlobalDrawContext.font = "30px Calibri";
-    GlobalDrawContext.strokeText("Press any key to start", GlobalConfig.GAME_WINDOW_WIDTH / 4, GlobalConfig.GAME_WINDOW_HEIGHT / 2);
+    GlobalDrawContext.strokeText("Hello Girlsday press 'A' to start", 60, GlobalConfig.GAME_WINDOW_HEIGHT / 2);
 }
 
 
@@ -120,7 +150,7 @@ class Game {
         Player.getEntity(); // ensure the player entity is created
 
         // load the current scene and render the start screen
-        await SceneManager.loadScene(GlobalConfig.INITIAL_SCENE_NAME);
+        await SceneManager.loadScene(GlobalConfig.THIRD_SCENE_NAME);
         GlobalDrawContext.drawImage(
             SceneManager.currentScene.imageManager.images.get('background'),
             0,
@@ -128,6 +158,7 @@ class Game {
             GlobalConfig.GAME_WINDOW_WIDTH,
             GlobalConfig.GAME_WINDOW_HEIGHT
         );
+        Player.reset();
         drawStartMessage();
 
         // add keyboard listeners to the window

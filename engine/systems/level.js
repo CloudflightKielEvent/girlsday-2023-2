@@ -12,7 +12,7 @@ async function restartGame() {
     // ensure the player entity is created
 
     // load the current scene and render the start screen
-    return SceneManager.loadScene(GlobalConfig.INITIAL_SCENE_NAME, true).then(() => {
+    return SceneManager.loadScene(GlobalConfig.THIRD_SCENE_NAME, true).then(() => {
         GlobalDrawContext.drawImage(
             SceneManager.currentScene.imageManager.images.get('background'),
             0,
@@ -65,7 +65,13 @@ export class LevelSystem {
      */
     static checkProgressCondition() {
         // Switch to second level
-        if (GlobalGameState.current.score > 2 && SceneManager.currentScene.name === GlobalConfig.INITIAL_SCENE_NAME) {
+        if (GlobalGameState.current.score > 5 && SceneManager.currentScene.name === GlobalConfig.THIRD_SCENE_NAME) {
+            LevelSystem.switchLevel(GlobalConfig.INITIAL_SCENE_NAME);
+
+            return true;
+        }
+
+        if (GlobalGameState.current.score > 10 && SceneManager.currentScene.name === GlobalConfig.INITIAL_SCENE_NAME) {
             LevelSystem.switchLevel(GlobalConfig.SECOND_SCENE_NAME);
 
             return true;
